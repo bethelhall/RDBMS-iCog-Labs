@@ -121,18 +121,16 @@ void Table::showData()
 {
     cout<<"Table: "<<tableName<<endl;
     showSchema();
-    std::set<std::vector<Tuple>>::iterator it;
+    std::set<std::vector<Tuple> >::iterator it;
     for(it=dataInTable.begin(); it!=dataInTable.end(); it++)
     {
         vector<Tuple> Tuple = *it;
-        for(int i =0; i < NoOfAttributes; i++)
-        {
-            Tuple[i].printTuple();
-        }
-        std::cout << std::endl;
+        for(int j=0;j<NoOfAttributes;j++)
+            Tuple[j].printTuple();
+
+        std::cout<<std::endl;
     }
-    std::cout <<std::endl;
-        
+        std::cout<<std::endl;
 }
 void Table::InsertIntoTable(set<variant<int, string, char, double, bool>> & values)
 {
@@ -166,108 +164,110 @@ bool Table::attributeExitsinTable(string attribute)
         return true;
     return false;
 }
-// // return attribute by name
-// Attribute Table::getAttributeByName(string name)
-// {
-//     if(!attributeExitsinTable(name))
-//     {
-//         string error="Attribute Match Error: No attribute \""+name+"\" found in Table "+getTableName();
-//         throw error;
-//     }
+// return attribute by name
+Attribute Table::getAttributeByName(string name)
+{
+    if(!attributeExitsinTable(name))
+    {
+        string error="Attribute Match Error: No attribute \""+name+"\" found in Table "+getTableName();
+        throw error;
+    }
 
-//     int index = attributeIndexMap[name];
-//     return schema[index];
-// }
-// // return atrribute index by name
-// int Table::getAttributeIndexByName(string name)
-// {
-//     if(!attributeExitsinTable(name))
-//     {
-//         string error="Attribute Match Error: No attribute \""+name+"\" found in Table "+getTableName();
-//         throw error;
-//     }
+    int index = attributeIndexMap[name];
+    return schema[index];
+}
+// return atrribute index by name
+int Table::getAttributeIndexByName(string name)
+{
+    if(!attributeExitsinTable(name))
+    {
+        string error="Attribute Match Error: No attribute \""+name+"\" found in Table "+getTableName();
+        throw error;
+    }
 
-//     return attributeIndexMap[name];
-// }
-// // Adds Attribute to schema if it does not exists already
-// void Table::addAttributeToSchema(Attribute newAttribute)
-// {
-//     if(attributeExitsinTable(newAttribute.getName()))
-//     {
-//         string error= "Corrupt Data Exception: Duplicate Attributes Are Not Allowed In "+getTableName();
-//         throw error;
-//     }
-//     schema.push_back(newAttribute);
-//     attributeIndexMap[newAttribute.getName()]=NoOfAttributes;
-//     NoOfAttributes++;
+    return attributeIndexMap[name];
+}
+// Adds Attribute to schema if it does not exists already
+void Table::addAttributeToSchema(Attribute newAttribute)
+{
+    if(attributeExitsinTable(newAttribute.getName()))
+    {
+        string error= "Corrupt Data Exception: Duplicate Attributes Are Not Allowed In "+getTableName();
+        throw error;
+    }
+    schema.push_back(newAttribute);
+    attributeIndexMap[newAttribute.getName()]=NoOfAttributes;
+    NoOfAttributes++;
 
-// }
-// // Adds a datatuple in dataInTable
-// void Table::addDataTuple(set<Tuple> dataTuple)
-// {
-//     dataInTable.insert(dataTuple);
-//     NoOfRecords++;
-// }
-// // Check if Tuple exists in the table or not
-// bool Table::dataTupleExists(set<Tuple> dataTuple)
-// {
-//     if(dataInTable.find(dataTuple) != dataInTable.end())
-//         return true;
-//     return false;
-// }
-// // check two schema are disjoint
-// // bool isDisjointSchema(std::vector<Attribute> otherSchema)
-// // {
-// //     for(int i=0;i<otherSchema.size();i++)
-// //     {
-// //         for(int j=0;j<schema.size();j++)
-// //         {
-// //             if(otherSchema[i]==schema[j])
-// //                 return false;
-// //         }
-// //     }
-// //     return true;
-// // }
-// //Checks if schema of two tables is exactly same 
-// bool Table::isSchemaSame(Table A)
-// {
-//     int flag;
-//     std::vector<Attribute> schemaA = A.getSchema();
-//     for(int i=0;i<schema.size();i++)
-//     {
-//         flag=0;
-//         for(int j=0;j<schemaA.size();j++)
-//         {
-//             if(schema[i].getName()==schemaA[j].getName() && schema[i].getDataType()==schemaA[j].getDataType())
-//             {
-//                 flag=1;
-//                 break;
-//             }
-//         }
-//         if(flag==0)
-//                 return false;
-//     }
-//     for(int j=0;j<schemaA.size();j++)
-//     {
-//         flag=0;
-//         for(int i=0;i<schema.size();i++)
-//         {
-//             if(schema[i].getName()==schemaA[j].getName() && schema[i].getDataType()==schemaA[j].getDataType())
-//             {
-//                 flag=1;
-//                 break;
-//             }
-//         }
-//         if(flag==0)
-//                 return false;
-//     }
-//     return true;
-// }
+}
+// Adds a datatuple in dataInTable
+void Table::addDataTuple(set<Tuple> dataTuple)
+{
+    dataInTable.insert(dataTuple);
+    NoOfRecords++;
+}
+// Check if Tuple exists in the table or not
+
+bool Table::dataTupleExists(set<Tuple> dataTuple)
+{
+    if(dataInTable.find(dataTuple) != dataInTable.end())
+        return true;
+    return false;
+}
+// check two schema are disjoint
+bool Table::isDisjointSchema(std::vector<Attribute> otherSchema)
+{
+    for(int i=0;i<otherSchema.size();i++)
+    {
+        for(int j=0;j<schema.size();j++)
+        {
+            if(otherSchema[i] == schema[j])
+                return false;
+        }
+    }
+    return true;
+}
+//Checks if schema of two tables is exactly same 
+bool Table::isSchemaSame(Table A)
+{
+    int flag;
+    std::vector<Attribute> schemaA = A.getSchema();
+    for(int i=0;i<schema.size();i++)
+    {
+        flag=0;
+        for(int j=0;j<schemaA.size();j++)
+        {
+            if(schema[i].getName()==schemaA[j].getName() && schema[i].getDataType()==schemaA[j].getDataType())
+            {
+                flag=1;
+                break;
+            }
+        }
+        if(flag==0)
+                return false;
+    }
+    for(int j=0;j<schemaA.size();j++)
+    {
+        flag=0;
+        for(int i=0;i<schema.size();i++)
+        {
+            if(schema[i].getName()==schemaA[j].getName() && schema[i].getDataType()==schemaA[j].getDataType())
+            {
+                flag=1;
+                break;
+            }
+        }
+        if(flag==0)
+                return false;
+    }
+    return true;
+}
 
 int main()
 {
     Table table("Student", 3, {"Name", "Age", "Dept"}, {"STRING", "INT", "STRING"});
-    //table.setSchema(3, {"Name", "Age", "Dept"}, {"STRING", "INT", "STRING"});
+    table.setSchema(3, {"Name", "Age", "Dept"}, {"STRING", "INT", "STRING"});
+    add
     table.showData();
     return 0;
 };
