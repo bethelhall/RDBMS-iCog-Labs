@@ -206,6 +206,7 @@ void Table::addDataTuple(set<Tuple> dataTuple)
     dataInTable.insert(dataTuple);
     NoOfRecords++;
 }
+
 // Check if Tuple exists in the table or not
 
 bool Table::dataTupleExists(set<Tuple> dataTuple)
