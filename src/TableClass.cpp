@@ -214,6 +214,7 @@ bool Table::dataTupleExists(set<Tuple> dataTuple)
         return true;
     return false;
 }
+
 // check two schema are disjoint
 bool Table::isDisjointSchema(std::vector<Attribute> otherSchema)
 {

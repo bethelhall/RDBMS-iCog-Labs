@@ -68,6 +68,7 @@ Type Attribute::stringToEnum(string v)
     else if(v=="BOOL")
         return BOOL;
     else
+    
     {
         string error = "DataType Should Be Only Among INT,DOUBLE, CHAR, STRING, BOOL";
         throw error;
