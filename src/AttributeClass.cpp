@@ -59,7 +59,7 @@ Type Attribute::stringToEnum(string v)
     std::transform(v.begin(), v.end(), v.begin(), ::toupper);
     if(v=="INT")
         return INT;
-    else if(v=="DOUBLE")
+    else if(v=="DOUBLE") 
         return DOUBLE;
     else if(v=="CHAR")
         return CHAR;
@@ -68,7 +68,7 @@ Type Attribute::stringToEnum(string v)
     else if(v=="BOOL")
         return BOOL;
     else
-    
+
     {
         string error = "DataType Should Be Only Among INT,DOUBLE, CHAR, STRING, BOOL";
         throw error;
