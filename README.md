@@ -1,10 +1,15 @@
 ## Relational Database Using Basic Set Theory
 
 #### how to build the project
-copy the whole folder and go to build folder then open terminal <br>
-``` run cmake ../src  ```
+clone the repository where you want <br>
+create build folder in the root directory<br>
+``` mkdir build ```
 
-``` cmake --build ```
+``` cd build ```
+
+``` cmake ../src  ```
+
+``` cmake --build .```
 
 #### how to run file
 in the build directory run
