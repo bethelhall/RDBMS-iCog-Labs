@@ -1,4 +1,4 @@
-#include "./header.hpp"
+#include "header.hpp"
 #include <iostream>
 #include <iterator>
 #include <ostream>
@@ -117,21 +117,21 @@ void Table::showSchema()
     cout <<endl;
 }
 
-// void Table::showData()
-// {
-//     cout<<"Table: "<<tableName<<endl;
-//     showSchema();
-//     std::set<std::vector<Tuple> >::iterator it;
-//     for(it=dataInTable.begin(); it!=dataInTable.end(); it++)
-//     {
-//         vector<Tuple> Tuple = *it;
-//         for(int j=0;j<NoOfAttributes;j++)
-//             Tuple[j].printTuple();
+void Table::showData()
+{
+    cout<<"Table: "<<tableName<<endl;
+    showSchema();
+    std::set<std::vector<Tuple> >::iterator it;
+    for(it=dataInTable.begin(); it!=dataInTable.end(); it++)
+    {
+        vector<Tuple> Tuple = *it;
+        for(int j=0;j<NoOfAttributes;j++)
+            Tuple[j].printTuple();
 
-//         std::cout<<std::endl;
-//     }
-//         std::cout<<std::endl;
-// }
+        std::cout<<std::endl;
+    }
+        std::cout<<std::endl;
+}
 void Table::InsertIntoTable(vector<string> & values)
 {
     if(values.size() != NoOfAttributes)

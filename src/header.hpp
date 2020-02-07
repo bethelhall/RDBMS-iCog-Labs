@@ -1,4 +1,7 @@
 #include <iostream>
+#include <fstream>
+#include <sstream>
+#include <iomanip>
 #include <string>
 #include <cctype>
 #include <map>
@@ -11,12 +14,22 @@ using std::map;
 using std::vector;
 using boost::variant;
 using std::set;
+using std::string;
 
 // declaration of Enum
 enum Type
 {
     INT, DOUBLE, CHAR, BOOL, STRING
 };
+template <typename T>
+string numberToString ( T Number );
+// declaration of trim
+std::string trim(std::string s);
+std::string rtrim(std::string s);
+std::string ltrim(std::string s);
+
+bool starts_with(string s1, string s2);
+bool checkBalancedParenthesis(string query);
 // declarations for database class
 void ShowTables();
 bool tableExists(string name);
@@ -30,8 +43,6 @@ void printElement(const int& width,int flag);
 bool isAlpha(string name);
 bool isAlphaNumeric(string name);
 bool attributeExitsinTable(string Attribute);
-template<typename T> 
-
 // error generic function
 void throwError(string error);
 
@@ -39,11 +50,6 @@ vector<string> commaSeparatedStrings(string list ,char delimiter);
 // load data
 void loadData();
 //declaration of Table, Database, Tuple and Attribute class
-
-static inline std::string trim(std::string s);
-static inline std::string rtrim(std::string s);
-static inline std::string ltrim(std::string s);
-
 class Attribute
 {
     private:
@@ -140,5 +146,7 @@ class Database
 
 };
 
+
 // set operations functions
 Table ProjectTable(Table table, vector<string> attributes);
+Table QueryParser(string query);

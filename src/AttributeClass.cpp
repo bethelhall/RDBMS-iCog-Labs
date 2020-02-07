@@ -1,4 +1,4 @@
-#include "./header.hpp"
+#include "header.hpp"
 #include <iostream>
 #include <sstream>
 #include <fstream>
