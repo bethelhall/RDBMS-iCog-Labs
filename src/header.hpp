@@ -35,7 +35,15 @@ template<typename T>
 // error generic function
 void throwError(string error);
 
+vector<string> commaSeparatedStrings(string list ,char delimiter);
+// load data
+void loadData();
 //declaration of Table, Database, Tuple and Attribute class
+
+static inline std::string trim(std::string s);
+static inline std::string rtrim(std::string s);
+static inline std::string ltrim(std::string s);
+
 class Attribute
 {
     private:
@@ -90,7 +98,7 @@ class Table
         //each dataInTable implemented as a set so that no data need to duplicated
         // dataInTable defined as set of set of class object
         set<Tuple> cell;
-        set<set<Tuple>> dataInTable;
+        set<vector<Tuple>> dataInTable;
         Table();
         Table(string tableName, int noOfAttributes, vector<string> attributeNames, vector<string> attributeTypes);
         string getTableName();
@@ -102,15 +110,35 @@ class Table
         void setSchema(int NoOfAttributes, vector<string> attributeNames, vector<string> attributeTypes);
         void showSchema();
         void showData();
-        void InsertIntoTable(set<variant<int, string, char, double, bool>> & values);
+        void InsertIntoTable(vector<string> & values);
         bool attributeExitsinTable(string attribute);
         Attribute getAttributeByName(string name);
         int getAttributeIndexByName(string name);
         void addAttributeToSchema(Attribute newAttribute);
-        void addDataTuple(set<Tuple> dataTuple);
-        bool dataTupleExists(set<Tuple> dataTuple);
+        void addDataTuple(vector<Tuple> dataTuple);
+        bool dataTupleExists(vector<Tuple> dataTuple);
         bool isDisjointSchema(std::vector<Attribute> otherSchema);
         bool isSchemaSame(Table A);
 
 
 };
+
+class Database
+{
+    public:
+        vector<Table> Tables;
+        map<string, int> tableIndexMap;
+        int noOfTables;
+        Database();
+        void CreateTable(string tableName, vector<string> attributes, vector<string> attributes_types);
+        void showTables();
+        bool tableExists(string name);
+        int getTableIndexByName(string name);
+        Table& getTableByName(string name);
+        void clearDataBase();
+
+
+};
+
+// set operations functions
+Table ProjectTable(Table table, vector<string> attributes);

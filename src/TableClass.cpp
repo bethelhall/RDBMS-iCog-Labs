@@ -117,38 +117,44 @@ void Table::showSchema()
     cout <<endl;
 }
 
-void Table::showData()
-{
-    cout<<"Table: "<<tableName<<endl;
-    showSchema();
-    std::set<std::vector<Tuple> >::iterator it;
-    for(it=dataInTable.begin(); it!=dataInTable.end(); it++)
-    {
-        vector<Tuple> Tuple = *it;
-        for(int j=0;j<NoOfAttributes;j++)
-            Tuple[j].printTuple();
+// void Table::showData()
+// {
+//     cout<<"Table: "<<tableName<<endl;
+//     showSchema();
+//     std::set<std::vector<Tuple> >::iterator it;
+//     for(it=dataInTable.begin(); it!=dataInTable.end(); it++)
+//     {
+//         vector<Tuple> Tuple = *it;
+//         for(int j=0;j<NoOfAttributes;j++)
+//             Tuple[j].printTuple();
 
-        std::cout<<std::endl;
-    }
-        std::cout<<std::endl;
-}
-void Table::InsertIntoTable(set<variant<int, string, char, double, bool>> & values)
+//         std::cout<<std::endl;
+//     }
+//         std::cout<<std::endl;
+// }
+void Table::InsertIntoTable(vector<string> & values)
 {
     if(values.size() != NoOfAttributes)
     {
         string error = "the number of values should be equal to the number of attributes";
         throw error;
     }
-    set<Tuple> v(NoOfAttributes);
+    vector<Tuple> v(NoOfAttributes);
     for(int i = 0; i < NoOfAttributes; i++)
     {
         switch (schema[i].getDataType())
         {
             case INT:
-                v[i].setValueInt(stringToInt(values[i]));
+                v[i].setValue(values[i]);
                 break;
             case DOUBLE:
-                v[i].setValueDouble(stringToDouble(values[i]));
+                v[i].setValue(values[i]);
+            case BOOL:
+                v[i].setValue(values[i]);
+            case CHAR:
+                v[i].setValue(values[i]);
+            case STRING:
+                v[i].setValue(values[i]);
             default:
                 break;
         }
@@ -201,7 +207,7 @@ void Table::addAttributeToSchema(Attribute newAttribute)
 
 }
 // Adds a datatuple in dataInTable
-void Table::addDataTuple(set<Tuple> dataTuple)
+void Table::addDataTuple(vector<Tuple> dataTuple)
 {
     dataInTable.insert(dataTuple);
     NoOfRecords++;
@@ -209,7 +215,7 @@ void Table::addDataTuple(set<Tuple> dataTuple)
 
 // Check if Tuple exists in the table or not
 
-bool Table::dataTupleExists(set<Tuple> dataTuple)
+bool Table::dataTupleExists(vector<Tuple> dataTuple)
 {
     if(dataInTable.find(dataTuple) != dataInTable.end())
         return true;
@@ -217,18 +223,18 @@ bool Table::dataTupleExists(set<Tuple> dataTuple)
 }
 
 // check two schema are disjoint
-bool Table::isDisjointSchema(std::vector<Attribute> otherSchema)
-{
-    for(int i=0;i<otherSchema.size();i++)
-    {
-        for(int j=0;j<schema.size();j++)
-        {
-            if(otherSchema[i] == schema[j])
-                return false;
-        }
-    }
-    return true;
-}
+// bool Table::isDisjointSchema(std::vector<Attribute> otherSchema)
+// {
+//     for(int i=0;i<otherSchema.size();i++)
+//     {
+//         for(int j=0;j<schema.size();j++)
+//         {
+//             if(otherSchema[i] == schema[j])
+//                 return false;
+//         }
+//     }
+//     return true;
+// }
 //Checks if schema of two tables is exactly same 
 bool Table::isSchemaSame(Table A)
 {
@@ -267,9 +273,9 @@ bool Table::isSchemaSame(Table A)
 
 int main()
 {
+    loadData();
     Table table("Student", 3, {"Name", "Age", "Dept"}, {"STRING", "INT", "STRING"});
     table.setSchema(3, {"Name", "Age", "Dept"}, {"STRING", "INT", "STRING"});
-    add
     table.showData();
     return 0;
 };
