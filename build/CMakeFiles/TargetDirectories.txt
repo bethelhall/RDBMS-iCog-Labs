@@ -1,3 +1,0 @@
-/home/misgana/Desktop/rdbm_using_setTheory/build/CMakeFiles/rebuild_cache.dir
-/home/misgana/Desktop/rdbm_using_setTheory/build/CMakeFiles/main.dir
-/home/misgana/Desktop/rdbm_using_setTheory/build/CMakeFiles/edit_cache.dir
