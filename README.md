@@ -12,5 +12,5 @@ create build folder in the root directory<br>
 ``` cmake --build .```
 
 #### how to run file
-in the build directory run
+in the build directory run<br>
 ``` ./main ```
