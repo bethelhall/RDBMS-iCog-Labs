@@ -71,6 +71,21 @@ void printElement(T t, const int& width,int flag)
 	    std::cout << std::setw(width) << std::setfill(separator) << t;
 }
 
+
+vector<Tuple> addTwoTuples(vector<Tuple> A, vector<Tuple> B)
+{
+	vector<Tuple> X;
+	for(int i=0;i<A.size();i++)
+	{
+		X.push_back(A[i]);
+	}
+	for(int i=0;i<B.size();i++)
+	{
+		X.push_back(B[i]);
+	}
+	return X;
+}
+
 vector<string> commaSeparatedStrings(string list ,char delimiter)
 {
     std::stringstream ss(list);
@@ -83,24 +98,6 @@ vector<string> commaSeparatedStrings(string list ,char delimiter)
     }
     return result;
 }
-//Generic function used to throw error from anywhere in the code
-void throwError(string error)
-{
-	throw error;
-}
-
-
-//Describes the schema of table "name"
-void DescribeTable(string name)
-{
-	Database dataBase;
-	name=trim(name.substr(4));
-	if(dataBase.tableExists(name))
-		dataBase.getTableByName(name).showSchema();
-	else
-		throwError("Invalid Query: No Table Found Named \""+name+"\"");
-}
-
 bool checkBalancedParenthesis(string query)
 {
 	stack<string> brackets;														//Check the pair of brackets by pushing and poping from the stack
@@ -133,16 +130,33 @@ bool checkBalancedParenthesis(string query)
 
 	return true;
 }
-bool starts_with(string s1, string s2)
+//Generic function used to throw error from anywhere in the code
+void throwError(string error)
 {
-    return s2.size() <= s1.size() && s1.compare(0, s2.size(), s2) == 0;
+	throw error;
 }
+
 string removeExtraParenthese(string query)
 {
 	while(query[0]=='(' || query[0]=='[' || query[0]=='{')
 		query = query.substr(1,query.size()-2);
 	return query;
 }
+//Describes the schema of table "name"
+bool starts_with(string s1, string s2)
+{
+    return s2.size() <= s1.size() && s1.compare(0, s2.size(), s2) == 0;
+}
+void DescribeTable(string name)
+{
+	Database dataBase;
+	name=trim(name.substr(4));
+	if(dataBase.tableExists(name))
+		dataBase.getTableByName(name).showSchema();
+	else
+		throwError("Invalid Query: No Table Found Named \""+name+"\"");
+}
+
 //Query Parser for six basic operations
 //Input: string query
 //Output: Returns a Table according to the query
@@ -154,14 +168,13 @@ Table QueryParser(string query)
 		throwError("Query Parser Error: NULL Query Parsed");
 	if(!checkBalancedParenthesis(query))									//MisBalanced Parenthesis Check
 		throwError("Query Parser Error: Misbalanced Bracket Query Parsed");
-	
-	query = removeExtraParenthese(query);
-	cout << "hello"<<endl;									//Remove Extra Brackets
+	query = removeExtraParenthese(query);							//Remove Extra Brackets
 	if(dataBase.tableExists(query))											//If table exists in dataabse then return table, otherwise nested query
 		return dataBase.getTableByName(query);
 	int firstCurlyBracket = query.find("{");								//Find position of first '{'
 	int firstSquareBracket = query.find("[");								//Find position of first '['
-
+	cout << firstCurlyBracket <<endl;
+	cout << firstSquareBracket<<endl;
 	if(firstSquareBracket==string::npos && firstCurlyBracket==string::npos)			//if both not found then error
 		throwError("Query Parser Error: Invalid Query Or Subquery");
 

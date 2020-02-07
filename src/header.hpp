@@ -143,9 +143,7 @@ class Database
         Table& getTableByName(string name);
         void clearDataBase();
 
-
 };
-
 
 // set operations functions
 Table ProjectTable(Table table, vector<string> attributes);

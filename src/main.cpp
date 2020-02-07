@@ -29,7 +29,6 @@ int main ()
                 }
                 else if(starts_with(queryCheck, "PROJECT"))
                 {
-                    cout<<"hello"<<endl;
                     QueryParser(query).showData();
                 }
                 else
@@ -39,9 +38,8 @@ int main ()
                 
 
             }
-            catch(string msg)
+            catch(const string msg)
             {
-                msg = "Error";
                 cout <<msg<<endl;
             }
         }
