@@ -161,11 +161,3 @@ void Attribute::printDatatype()
     }
     std::cout<<" ";
 }
-// int main()
-// {
-//     Attribute attr("Name", INT);
-//     cout<<attr.getDataType()<<endl;
-//     cout << attr.getName()<<endl;
-//     cout << attr.getDataTypeString()<<endl;
-//     return 0;
-// }

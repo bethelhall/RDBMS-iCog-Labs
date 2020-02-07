@@ -51,6 +51,7 @@ string Tuple::enumToString(Type v)
             break;
     }
 }
+Tuple::Tuple(){}
 Tuple::Tuple(variant<int, std::string, bool, double, char> value): cellValue(value)
 {
     null =false;
@@ -190,11 +191,3 @@ bool Tuple::isNull()
     return false;
 }
 
-
-int main()
-{
-    Tuple cell(10);
-    cout<<cell.getDataType()<<endl;
-    cout<<cell.getDataTypeString()<<endl;
-    cout<<cell.isNull()<<endl;
-}

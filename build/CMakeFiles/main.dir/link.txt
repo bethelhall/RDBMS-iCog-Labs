@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/main.dir/main.cpp.o CMakeFiles/main.dir/TableClass.cpp.o CMakeFiles/main.dir/TupleClass.cpp.o CMakeFiles/main.dir/AttributeClass.cpp.o CMakeFiles/main.dir/DatabaseClass.cpp.o CMakeFiles/main.dir/setOperation.cpp.o CMakeFiles/main.dir/helperFunctions.cpp.o  -o main 

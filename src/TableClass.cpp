@@ -26,7 +26,7 @@ const char separator    = ' ';
 const int nameWidth     = 28;
 const int numWidth      = 10;
 // table constractor
-
+Table::Table(){}
 Table::Table(string tableName, int NoOfAttributes, vector<string> attributeNames, vector<string> attributeTypes):
     tableName(tableName), NoOfAttributes(NoOfAttributes)
 {
@@ -270,12 +270,3 @@ bool Table::isSchemaSame(Table A)
     }
     return true;
 }
-
-int main()
-{
-    loadData();
-    Table table("Student", 3, {"Name", "Age", "Dept"}, {"STRING", "INT", "STRING"});
-    table.setSchema(3, {"Name", "Age", "Dept"}, {"STRING", "INT", "STRING"});
-    table.showData();
-    return 0;
-};

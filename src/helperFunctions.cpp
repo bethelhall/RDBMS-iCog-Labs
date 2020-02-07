@@ -67,7 +67,7 @@ void printElement(T t, const int& width,int flag)
 
 vector<string> commaSeparatedStrings(string list ,char delimiter)
 {
-    stringstream ss(list);
+    std::stringstream ss(list);
     vector<string> result;
     while(ss.good())
     {
