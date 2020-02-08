@@ -91,7 +91,7 @@ Attribute::Attribute(string attributeNames,string dataType)
     setValues(attributeNames,dataType);
 }
 //Comparator for attribute object
-bool Attribute::operator <(const Attribute &x) const
+bool Attribute::operator ==(const Attribute &x) const
 {							
     if(attributeNames==x.attributeNames)
     {

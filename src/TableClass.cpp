@@ -222,19 +222,19 @@ bool Table::dataTupleExists(vector<Tuple> dataTuple)
     return false;
 }
 
-// check two schema are disjoint
-// bool Table::isDisjointSchema(std::vector<Attribute> otherSchema)
-// {
-//     for(int i=0;i<otherSchema.size();i++)
-//     {
-//         for(int j=0;j<schema.size();j++)
-//         {
-//             if(otherSchema[i] == schema[j])
-//                 return false;
-//         }
-//     }
-//     return true;
-// }
+//check two schema are disjoint
+bool Table::isDisjointSchema(std::vector<Attribute> otherSchema)
+{
+    for(int i=0;i<otherSchema.size();i++)
+    {
+        for(int j=0;j<schema.size();j++)
+        {
+            if(otherSchema[i] == schema[j])
+                return false;
+        }
+    }
+    return true;
+}
 //Checks if schema of two tables is exactly same 
 bool Table::isSchemaSame(Table A)
 {

@@ -1,0 +1,10 @@
+PROJECTION
+****************
+PROJECT {Name,Grade}[Student]
+PROJECT {Name}[Student]
+****************
+
+UNION
+****************
+UNION [Teacher,Staff]
+****************

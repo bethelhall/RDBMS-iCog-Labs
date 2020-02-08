@@ -4,7 +4,7 @@ project (RDBM_USING_SETTHEORY)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED on)
 
-# creates the variable EXEC and sets it to hello
+# creates the variable EXEC and sets it to main
 set(EXEC main)
 
 add_executable(${EXEC} 
@@ -14,5 +14,4 @@ add_executable(${EXEC}
 				AttributeClass.cpp 
 				DatabaseClass.cpp
 				setOperation.cpp
-				helperFunctions.cpp
-				)
+				helperFunctions.cpp)

@@ -21,20 +21,14 @@ enum Type
 {
     INT, DOUBLE, CHAR, BOOL, STRING
 };
+
+//declaration for changing number to string
 template <typename T>
 string numberToString ( T Number );
-// declaration of trim
-std::string trim(std::string s);
-std::string rtrim(std::string s);
-std::string ltrim(std::string s);
+
 
 bool starts_with(string s1, string s2);
 bool checkBalancedParenthesis(string query);
-// declarations for database class
-void ShowTables();
-bool tableExists(string name);
-int getTableIndexByName(string name);
-void ClearDatabase();
 
 // print elemement on the terminal
 void printElement(const int& width,int flag);
@@ -43,12 +37,15 @@ void printElement(const int& width,int flag);
 bool isAlpha(string name);
 bool isAlphaNumeric(string name);
 bool attributeExitsinTable(string Attribute);
+
 // error generic function
 void throwError(string error);
 
 vector<string> commaSeparatedStrings(string list ,char delimiter);
+
 // load data
 void loadData();
+
 //declaration of Table, Database, Tuple and Attribute class
 class Attribute
 {
@@ -61,7 +58,7 @@ class Attribute
         Attribute();
         Attribute(string attributeName, Type dataType);
         Attribute(string attributeName,string dataType);
-        bool operator <(const Attribute &x) const;
+        bool operator ==(const Attribute &x) const;
         void setValues(string attributeName, string dataType);
         string getName();
         Type getDataType();
@@ -83,7 +80,7 @@ class Tuple
         Tuple();
         Tuple(variant<int, std::string, bool, double, char> value);
         bool operator<(const Tuple &x) const;
-        void setValue(variant<int, std::string, bool, double, char> v);
+        void setValue(variant<int, std::string, bool, double, char> value);
         variant<int, std::string, bool, double, char> getValue();
         Type getDataType();
         string getDataTypeString();
