@@ -17,6 +17,7 @@ using std::ios;
 using std::cout;
 using std::endl;
 using std::stack;
+using std::vector;
 
 //Constants For Displaying in Tabular Form In Terminal
 const char separator    = ' ';
@@ -30,18 +31,18 @@ string numberToString ( T Number )
 	ss << Number;
 	return ss.str();
 }
-std::string ltrim(std::string s)
+static inline std::string ltrim(std::string s)
 {
     s.erase(s.begin(), std::find_if(s.begin(), s.end(), std::not1(std::ptr_fun<int, int>(std::isspace))));
     return s;
 }
-std::string rtrim(std::string s) 
+static inline std::string rtrim(std::string s) 
 {
     s.erase(std::find_if(s.rbegin(), s.rend(), std::not1(std::ptr_fun<int, int>(std::isspace))).base(), s.end());
     return s;
 }
 
-std::string trim(std::string s) 
+static inline std::string trim(std::string s) 
 {
     return ltrim(rtrim(s));
 }
@@ -98,192 +99,20 @@ vector<string> commaSeparatedStrings(string list ,char delimiter)
     }
     return result;
 }
-bool checkBalancedParenthesis(string query)
-{
-	stack<string> brackets;														//Check the pair of brackets by pushing and poping from the stack
-	for(int i=0;i<query.size();i++)
-	{
-		if(query[i]=='(' || query[i]=='{' || query[i]=='[')
-			brackets.push(numberToString(query[i]));
-		else if(query[i]==')')
-		{
-			if(!brackets.empty() && brackets.top()=="(")						//If it matches the same type, else error
-				brackets.pop();
-			else
-				return false;
-		}
-		else if(query[i]=='}')
-		{
-			if(!brackets.empty() && brackets.top()=="{")						//If it matches the same type, else error
-				brackets.pop();
-			else
-				return false;
-		}
-		else if(query[i]==']')
-		{
-			if(!brackets.empty() && brackets.top()=="[")						//If it matches the same type, else error
-				brackets.pop();
-			else
-				return false;
-		}
-	}
-
-	return true;
-}
-//Generic function used to throw error from anywhere in the code
 void throwError(string error)
 {
 	throw error;
 }
-
-string removeExtraParenthese(string query)
-{
-	while(query[0]=='(' || query[0]=='[' || query[0]=='{')
-		query = query.substr(1,query.size()-2);
-	return query;
-}
-//Describes the schema of table "name"
-bool starts_with(string s1, string s2)
-{
-    return s2.size() <= s1.size() && s1.compare(0, s2.size(), s2) == 0;
-}
-void DescribeTable(string name)
-{
-	Database dataBase;
-	name=trim(name.substr(4));
-	if(dataBase.tableExists(name))
-		dataBase.getTableByName(name).showSchema();
-	else
-		throwError("Invalid Query: No Table Found Named \""+name+"\"");
-}
-
-//Query Parser for six basic operations
-//Input: string query
-//Output: Returns a Table according to the query
-Table QueryParser(string query)
-{
-	Database dataBase;
-	query = trim(query);   													//trims the trailing spaces from front and back of string
-	if(query=="")															//NULL Query Check
-		throwError("Query Parser Error: NULL Query Parsed");
-	if(!checkBalancedParenthesis(query))									//MisBalanced Parenthesis Check
-		throwError("Query Parser Error: Misbalanced Bracket Query Parsed");
-	query = removeExtraParenthese(query);							//Remove Extra Brackets
-	if(dataBase.tableExists(query))											//If table exists in dataabse then return table, otherwise nested query
-		return dataBase.getTableByName(query);
-	int firstCurlyBracket = query.find("{");								//Find position of first '{'
-	int firstSquareBracket = query.find("[");								//Find position of first '['
-	cout << firstCurlyBracket <<endl;
-	cout << firstSquareBracket<<endl;
-	if(firstSquareBracket==string::npos && firstCurlyBracket==string::npos)			//if both not found then error
-		throwError("Query Parser Error: Invalid Query Or Subquery");
-
-	int flag;
-	if(firstSquareBracket!=string::npos && firstCurlyBracket!=string::npos)
-	{
-		if(firstCurlyBracket<firstSquareBracket)
-			flag=0;
-		else flag=1;
-	}
-	else if(firstCurlyBracket==string::npos)
-		flag=1;
-	else
-		throwError("Query Parser Error: Proper Brackets Are Not Provided In Your Query Or Subquery");
-
-	string checkQuery = query;
-	transform(checkQuery.begin(), checkQuery.end(), checkQuery.begin(), ::toupper);
-	if(flag==1 && (starts_with(checkQuery,"SELECT")||starts_with(checkQuery,"RENAME")||starts_with(checkQuery,"PROJECT")))
-		throwError("Query Parser Error: Proper Brackets Are Not Provided In Your Query Or Subquery");
-	if(flag==0 && (starts_with(checkQuery,"UNION")||starts_with(checkQuery,"CART")||starts_with(checkQuery,"SDIFF")))
-		throwError("Query Parser Error: Proper Brackets Are Not Provided In Your Query Or Subquery");
-	
-	if(flag==0)
-	{
-		int secondCurlyBracket = query.find("}",firstCurlyBracket);
-		if(secondCurlyBracket==string::npos || trim(query.substr(secondCurlyBracket+1,firstSquareBracket-secondCurlyBracket-1))!="" || query[query.size()-1]!=']')
-			throwError("Query Parser Error: Proper Brackets Are Not Provided In Your Query Or Subquery");
-
-		string queryFunction = trim(query.substr(0,firstCurlyBracket));				//extract queryfunction from query
-		transform(queryFunction.begin(), queryFunction.end(), queryFunction.begin(), ::toupper);		//Transform it to UPPERCASE
-		string betweenBraces = trim(query.substr(firstCurlyBracket+1,secondCurlyBracket-firstCurlyBracket-1));  //extract { } part
-		string betweenBrackets = trim(query.substr(firstSquareBracket+1,query.size()-firstSquareBracket-2));	//extract [ ] part
-
-		Table A;				
-
-		if(dataBase.tableExists(betweenBrackets))							//If table exists in dataabse then return table, otherwise nested query
-			A = dataBase.getTableByName(betweenBrackets);
-		else
-			A = QueryParser(betweenBrackets);
-
-		if(queryFunction=="PROJECT")
-		{
-			vector<string> attributes = commaSeparatedStrings(betweenBraces,',');
-			return ProjectTable(A,attributes);
-		}
-		else
-			throwError("Query Parser Error: Wrong Query Given ");
-
-	}
-	else if(flag==1)
-	{
-		if(query[query.size()-1]!=']')
-			throwError("Query Parser Error: Proper Brackets Are Not Provided In Your Query Or Subquery");
-		
-		string betweenBrackets = trim(query.substr(firstSquareBracket+1,query.size()-firstSquareBracket-2));	// extract [ ] part
-		string queryFunction = trim(query.substr(0,firstSquareBracket));			//extract query function
-		transform(queryFunction.begin(), queryFunction.end(), queryFunction.begin(), ::toupper);				//Convert to UPPERCASE
-		//Table A B
-		int count=0;
-		int indexOfComma=-1;
-		for(int i=0;i<betweenBrackets.size();i++)
-		{
-			if(betweenBrackets[i]=='(' || betweenBrackets[i]=='{' || betweenBrackets[i]=='[')
-			{
-				count++;
-				continue;
-			}
-			if(betweenBrackets[i]==')' || betweenBrackets[i]=='}' || betweenBrackets[i]==']')
-			{
-				count--;
-				continue;
-			}
-			if(betweenBrackets[i]==',' && count == 0 && indexOfComma==-1)
-			{
-				indexOfComma=i;
-			}
-			else if(betweenBrackets[i]==',' && count == 0 && indexOfComma!=-1)
-				throwError("Query Parser Error: Query Not Given In Proper Format");
-
-		}
-		if(indexOfComma==-1 || indexOfComma==0 || indexOfComma==betweenBrackets.size()-1)
-			throwError("Query Parser Error: Query Not Given In Proper Format");
-
-		string queryA = trim(betweenBrackets.substr(0,indexOfComma));			//split strings about comma
-		string queryB = trim(betweenBrackets.substr(indexOfComma+1));
-		if(queryA==""||queryB=="")
-			throwError("Query Parser Error: Wrong Query Given");
-
-		Table A,B;
-		if(dataBase.tableExists(queryA))
-			A = dataBase.getTableByName(queryA);
-		else
-			A = QueryParser(queryA);
-		if(dataBase.tableExists(queryB))
-			B = dataBase.getTableByName(queryB);
-		else
-			B = QueryParser(queryB);
-	}
-	else
-		throwError("Query Parser Error: Wrong Query Given");
-
-}
-
 void loadData()
 {
 	fstream fileObject;
 	//load csv file
-	fileObject.open("TablesInfo.csv", ios::in);				
-	cout <<"hello"<<endl;
+	fileObject.open("../TablesInfo.csv", ios::in);
+	if(!fileObject.is_open())
+	{
+		cout <<"hello"<<endl;
+		throw "Error Opening File TablesInfo.csv, Please Retry...";
+	}
 	int tableOpen=0, istableNameSet=0;
 	int schemaOpen=0,isSchemaSet=0;
 	string tableName="";
@@ -293,7 +122,7 @@ void loadData()
 	string line;
 	while(getline(fileObject,line))
 	{
-		// cout<<line<<endl;
+		//cout<<line<<endl;
 		line=trim(line);
 		if(line=="")
 			continue;
@@ -367,7 +196,6 @@ void loadData()
 		else
 		{
 				throwError("Error In TablesInfo.csv");
-
 		}
 
 	}

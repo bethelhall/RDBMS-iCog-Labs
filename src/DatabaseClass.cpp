@@ -18,6 +18,24 @@ Database::Database()
     noOfTables=0;
 }
 
+// create Database
+void Database::CreateDatabase(string name)
+{
+    std::ofstream dbFile;
+    dbFile.open("../" + name + ".csv");
+    this->DatabaseName = name;
+
+}
+string Database::getDatabaseName()
+{
+    return DatabaseName;
+}
+
+void Database::NameTable(string name){
+    std::fstream table;
+    table.open("TablesInfo.csv");
+    table << name,"\n";
+}
 // Adds a table to the database
 void Database::CreateTable(string tableName, vector<string> attributes, vector<string> attributes_types)
 {

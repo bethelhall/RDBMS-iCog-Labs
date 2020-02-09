@@ -14,4 +14,6 @@ add_executable(${EXEC}
 				AttributeClass.cpp 
 				DatabaseClass.cpp
 				setOperation.cpp
-				helperFunctions.cpp)
+				queryParser.cpp
+				helperFunctions.cpp
+				)

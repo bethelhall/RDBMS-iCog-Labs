@@ -22,13 +22,12 @@ enum Type
     INT, DOUBLE, CHAR, BOOL, STRING
 };
 
+// string parser
+vector<string> parseQuery(string query);
+
 //declaration for changing number to string
 template <typename T>
 string numberToString ( T Number );
-
-
-bool starts_with(string s1, string s2);
-bool checkBalancedParenthesis(string query);
 
 // print elemement on the terminal
 void printElement(const int& width,int flag);
@@ -45,16 +44,15 @@ vector<string> commaSeparatedStrings(string list ,char delimiter);
 
 // load data
 void loadData();
-
 //declaration of Table, Database, Tuple and Attribute class
 class Attribute
 {
     private:
         string attributeNames;
         Type dataType;
+    public:
         string enumToString(Type v);
         Type stringToEnum(string v);
-    public:
         Attribute();
         Attribute(string attributeName, Type dataType);
         Attribute(string attributeName,string dataType);
@@ -67,7 +65,6 @@ class Attribute
         void printDatatype();
 
 };
-
 
 class Tuple
 {
@@ -123,16 +120,19 @@ class Table
         bool isDisjointSchema(std::vector<Attribute> otherSchema);
         bool isSchemaSame(Table A);
 
-
 };
 
 class Database
 {
     public:
+        string DatabaseName;
         vector<Table> Tables;
         map<string, int> tableIndexMap;
         int noOfTables;
         Database();
+        void CreateDatabase(string name);
+        string getDatabaseName();
+        void NameTable(string name);
         void CreateTable(string tableName, vector<string> attributes, vector<string> attributes_types);
         void showTables();
         bool tableExists(string name);
@@ -141,7 +141,7 @@ class Database
         void clearDataBase();
 
 };
-
 // set operations functions
+Table UnionTables(Table A, Table B);
 Table ProjectTable(Table table, vector<string> attributes);
 Table QueryParser(string query);
