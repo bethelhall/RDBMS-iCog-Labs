@@ -17,3 +17,4 @@ add_executable(${EXEC}
 				queryParser.cpp
 				helperFunctions.cpp
 				)
+			
