@@ -1,8 +1,6 @@
-#include "header.hpp"
+#include "database.hpp"
 #include <iostream>
-#include <iterator>
-#include <ostream>
-#include <sstream>
+#include <fstream>
 #include <iomanip>
 #include <string>
 #include <map>
@@ -89,7 +87,6 @@ Table& Database::getTableByName(string name)
         throw error;
     }
     int index = tableIndexMap[name];
-    cout <<index<<endl;
     return Tables[index];
 }
 

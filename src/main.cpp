@@ -1,17 +1,9 @@
-#include "header.hpp"
+#include <header.hpp>
 #include <iostream>
-#include <sstream>
-#include <fstream>
-#include <climits>
 #include <cctype>
 #include <iomanip>
 #include <string.h>
 #include <vector>
-#include <stack>
-#include <set>
-#include <map>
-#include <algorithm>
-#include <bits/stdc++.h> 
 
 
 using std::cout;

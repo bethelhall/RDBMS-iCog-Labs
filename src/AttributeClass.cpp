@@ -1,15 +1,13 @@
-#include "header.hpp"
+#include "attribute.hpp"
+#include "helper.hpp"
 #include <iostream>
-#include <sstream>
-#include <fstream>
+#include <cctype>
 #include <iomanip>
 #include <string>
 #include <typeinfo>
-#include <set>
-#include <map>
-#include <cctype>
 #include <vector>
 #include <boost/variant.hpp>
+
 
 using boost::variant;
 using std::cout;
@@ -21,6 +19,7 @@ const char separator    = ' ';
 const int nameWidth     = 28;
 const int numWidth      = 10;
 
+
 //Function for printing elements on terminal
 template<typename T> 
 void printElement(T t, const int& width,int flag)
@@ -31,27 +30,28 @@ void printElement(T t, const int& width,int flag)
 	    std::cout << std::setw(width) << std::setfill(separator) << t;
 }
 
+
 // Converting ENUM to String
 string Attribute::enumToString(Type v)
 {
-switch(v)
-{
-    case 0:
-        return "INT";
-        break;
-    case 1: 
-        return "DOUBLE";
-        break;
-    case 2:
-        return "CHAR";
-        break;
-    case 3:
-        return "BOOL";
-        break;
-    case 4: 
-        return "STRING";
-        break;
-}
+    switch(v)
+    {
+        case 0:
+            return "INT";
+            break;
+        case 1: 
+            return "DOUBLE";
+            break;
+        case 2:
+            return "CHAR";
+            break;
+        case 3:
+            return "BOOL";
+            break;
+        case 4: 
+            return "STRING";
+            break;
+    }
 }
 //Converting String To Enum
 Type Attribute::stringToEnum(string v)

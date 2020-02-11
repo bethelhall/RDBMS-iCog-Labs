@@ -1,8 +1,6 @@
-#include "header.hpp"
+#include "table.hpp"
+#include "helper.hpp"
 #include <iostream>
-#include <iterator>
-#include <ostream>
-#include <sstream>
 #include <iomanip>
 #include <string>
 #include <typeinfo>
@@ -10,7 +8,6 @@
 #include <map>
 #include <cctype>
 #include <vector>
-#include <boost/variant.hpp>
 
 
 using std::left;
@@ -20,11 +17,11 @@ using std::vector;
 using std::string;
 using std::map;
 using std::set;
-using boost::variant;
 
 const char separator    = ' ';
 const int nameWidth     = 28;
 const int numWidth      = 10;
+
 // table constractor
 Table::Table(){}
 Table::Table(string tableName, int NoOfAttributes, vector<string> attributeNames, vector<string> attributeTypes):

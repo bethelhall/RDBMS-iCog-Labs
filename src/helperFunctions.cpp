@@ -1,22 +1,20 @@
-#include "header.hpp"
+#include "helper.hpp"
+#include "database.hpp"
 #include <iostream>
-#include <sstream>
 #include <fstream>
+#include <sstream>
 #include <climits>
 #include <cctype>
 #include <iomanip>
 #include <string.h>
 #include <vector>
-#include <stack>
-#include <set>
-#include <map>
 #include <algorithm>
+
 
 using std::fstream;
 using std::ios;
 using std::cout;
 using std::endl;
-using std::stack;
 using std::vector;
 
 //Constants For Displaying in Tabular Form In Terminal
@@ -31,22 +29,27 @@ string numberToString ( T Number )
 	ss << Number;
 	return ss.str();
 }
+
+// definition of left trim functions to erase spaces 
 static inline std::string ltrim(std::string s)
 {
     s.erase(s.begin(), std::find_if(s.begin(), s.end(), std::not1(std::ptr_fun<int, int>(std::isspace))));
     return s;
 }
+
+// definition of right trim function to erase space
 static inline std::string rtrim(std::string s) 
 {
     s.erase(std::find_if(s.rbegin(), s.rend(), std::not1(std::ptr_fun<int, int>(std::isspace))).base(), s.end());
     return s;
 }
 
+// definition of trim function to erase space
 static inline std::string trim(std::string s) 
 {
     return ltrim(rtrim(s));
 }
-
+// check for alphabetic and numeric values
 bool isAlpha(string name)
 {
 	for(int i=0;i<name.size();i++)
@@ -54,6 +57,7 @@ bool isAlpha(string name)
 			return false;
 	return true;
 }
+
 bool isAlphaNumeric(string name)
 {
 	for(int i=0;i<name.size();i++)
@@ -72,21 +76,21 @@ void printElement(T t, const int& width,int flag)
 	    std::cout << std::setw(width) << std::setfill(separator) << t;
 }
 
+// vector<Tuple> addTwoTuples(vector<Tuple> A, vector<Tuple> B)
+// {
+// 	vector<Tuple> X;
+// 	for(int i=0;i<A.size();i++)
+// 	{
+// 		X.push_back(A[i]);
+// 	}
+// 	for(int i=0;i<B.size();i++)
+// 	{
+// 		X.push_back(B[i]);
+// 	}
+// 	return X;
+// }
 
-vector<Tuple> addTwoTuples(vector<Tuple> A, vector<Tuple> B)
-{
-	vector<Tuple> X;
-	for(int i=0;i<A.size();i++)
-	{
-		X.push_back(A[i]);
-	}
-	for(int i=0;i<B.size();i++)
-	{
-		X.push_back(B[i]);
-	}
-	return X;
-}
-
+// definition for commaseparatedstring 
 vector<string> commaSeparatedStrings(string list ,char delimiter)
 {
     std::stringstream ss(list);
@@ -99,10 +103,13 @@ vector<string> commaSeparatedStrings(string list ,char delimiter)
     }
     return result;
 }
+// generic function to throw error
 void throwError(string error)
 {
 	throw error;
 }
+
+// definition of loaddata to table information
 void loadData()
 {
 	fstream fileObject;
@@ -122,25 +129,26 @@ void loadData()
 	string line;
 	while(getline(fileObject,line))
 	{
-		//cout<<line<<endl;
+		cout<<line<<endl;
 		line=trim(line);
 		if(line=="")
 			continue;
-		else if(line=="<Table>")					//Error Check
+		else if(line=="<Table>")					
 		{
 			if(tableOpen==0 && schemaOpen==0 && isSchemaSet==0 && istableNameSet==0)
 				tableOpen=1;
 			else
 				throwError("Error In TablesInfo.csv");
 		}
-		else if(line=="</Table>")											//Error Check
+		else if(line=="</Table>")											
 		{
 			if(tableOpen==1 && schemaOpen==0 && isSchemaSet==1 && istableNameSet==1)
 			{
 				Database dataBase;
-				dataBase.CreateTable(tableName,attributes,attributes_types);							// If </Table> then save table to Database
+				dataBase.CreateTable(tableName,attributes,attributes_types);						
 				for(int i=0;i<dataForTable.size();i++)
 					dataBase.getTableByName(tableName).InsertIntoTable(dataForTable[i]);
+				
 				tableName="";
 				attributes.clear();
 				attributes_types.clear();
@@ -148,6 +156,7 @@ void loadData()
 				tableOpen=0;
 				istableNameSet=0;
 				isSchemaSet=0;
+				
 			}
 			else
 				throwError("Error In TablesInfo.csv");
@@ -157,7 +166,7 @@ void loadData()
 			if(tableOpen==1 && isSchemaSet==0 && schemaOpen==0 && istableNameSet==1)
 				schemaOpen=1;
 			else
-				throwError("Error In TablesInfo.csv");									//Error Check
+				throwError("Error In TablesInfo.csv");									
 		}
 		else if(line=="</Schema>")
 		{
@@ -167,7 +176,7 @@ void loadData()
 				schemaOpen=0;
 			}
 			else
-				throwError("Error In TablesInfo.csv");										//Error Check
+				throwError("Error In TablesInfo.csv");									
 		}
 		else if(tableOpen == 1 && isSchemaSet ==0 && schemaOpen==0 && istableNameSet==0)
 		{

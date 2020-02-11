@@ -1,7 +1,7 @@
 PROJECTION
 ****************
-PROJECT {Name,Grade}[Student]
-PROJECT {Name}[Student]
+PROJECT {Name,ID}[Teacher]
+PROJECT {Name}[Teacher]
 ****************
 
 UNION

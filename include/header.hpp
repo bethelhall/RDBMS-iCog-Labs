@@ -144,4 +144,3 @@ class Database
 // set operations functions
 Table UnionTables(Table A, Table B);
 Table ProjectTable(Table table, vector<string> attributes);
-Table QueryParser(string query);

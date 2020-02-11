@@ -1,16 +1,9 @@
-#include "./header.hpp"
+#include "table.hpp"
 #include <iostream>
-#include <iterator>
-#include <ostream>
-#include <sstream>
-#include <iomanip>
 #include <string>
-#include <typeinfo>
 #include <set>
-#include <map>
 #include <cctype>
 #include <vector>
-#include <boost/variant.hpp>
 
 using std::vector;
 using std::set;
