@@ -1,4 +1,4 @@
-#include <header.hpp>
+#include "header.hpp"
 #include <iostream>
 #include <cctype>
 #include <iomanip>
@@ -10,6 +10,7 @@ using std::cout;
 using std::vector;
 using std::endl;
 using std::cin;
+using std::string;
 
 void display_query_syntax()
 {
