@@ -16,6 +16,7 @@ void display_query_syntax()
 {
   cout << "=====================================================================================================\n";
   cout << "\t\t sample query syntax example\n";
+  cout << "\t0) CREATE DATABASE \n";
   cout << "\t1) CREATE TABLE student id INT name STRING age INT gender STRING \n";
   cout << "\t2) INSERT INTO student 1 danny 21 male\n";
   cout << "\t4) update student values=1,danny,25,male where name=danny\n";
@@ -125,6 +126,7 @@ int main ()
                 else if(mainQuery == "PROJECT")
                 {
                     Table table = db.getTableByName(parsedQuery[parsedQuery.size() - 1]);
+                     
                     ProjectTable(table, projectedData);
                 }
                 else if(mainQuery == "UNION")
@@ -132,6 +134,12 @@ int main ()
                     Table A = db.getTableByName(parsedQuery[parsedQuery.size() - 1]);
                     Table B = db.getTableByName(parsedQuery[parsedQuery.size() - 2]);
                     Table C = UnionTables(A, B);
+                    C.showData();
+
+                }else if(mainQuery == "INTERSECTION"){
+                    Table A = db.getTableByName(parsedQuery[parsedQuery.size()-1]);
+                    Table B = db.getTableByName(parsedQuery[parsedQuery.size()-2]);
+                    Table C = IntersectionOfTables(A,B);
                     C.showData();
 
                 }
