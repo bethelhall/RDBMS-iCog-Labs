@@ -51,6 +51,7 @@ public:
 
 Table UnionTables(Table A, Table B);
 Table ProjectTable(Table table, vector<string> attributes);
+Table SetDifferenceTable(Table A, Table B);
 Table QueryParser(string query);
 
 

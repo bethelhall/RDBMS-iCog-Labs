@@ -68,3 +68,25 @@ Table ProjectTable(Table table, vector<string> attributes)
 
 	return output;
 }
+
+Table SetDifferenceTable(Table A, Table B)
+{
+	if(!A.isSchemaSame(B))													//Schema should be same for both of them
+	{
+		string error="SetDifference Table Error: Table \""+A.getTableName()+"\" and Table \""+B.getTableName()+"\" do not have same schemas";
+		throw error;
+	}
+
+	Table output = A;
+	output.setTableName("|"+A.getTableName()+" - "+B.getTableName()+"|");				//New Table Name Set as  | A - B |
+	output.dataInTable.clear();
+	std::set<std::vector<Tuple> >::iterator it;
+	for(it=A.dataInTable.begin(); it!=A.dataInTable.end(); it++)
+	{
+		if(!B.dataTupleExists(*it))
+			output.addDataTuple(*it);											//Add datatuples of A to new table if they does not exist in B
+	}
+
+	return output;
+
+}
