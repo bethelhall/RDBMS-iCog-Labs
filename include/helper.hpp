@@ -31,7 +31,5 @@ void throwError(string error);
 
 vector<string> commaSeparatedStrings(string list ,char delimiter);
 
-// load data
-void loadData();
 
 

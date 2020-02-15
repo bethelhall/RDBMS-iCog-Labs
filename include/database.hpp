@@ -15,7 +15,7 @@ class Database
 {
 public:
 //each public declaration for database class
-    string DatabaseName;
+    vector<string> DatabaseName;
     vector<Table> Tables;
     map<string, int> tableIndexMap;
     int noOfTables;

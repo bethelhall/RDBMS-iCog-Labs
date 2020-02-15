@@ -1,10 +1,30 @@
+sample query syntax example
+======================================================================================================================
+CREATE DATABASE university
+
+CREATE TABLE student id INT name STRING age INT gender STRING
+
+CREATE TABLE teacher id INT name STRING age INT gender STRING
+
+INSERT INTO student 1 danny 21 male
+
+INSERT INTO teacher 1 misge 21 male
+
+SHOW DATA student
+
+SHOW DATA teacher
+
+SHOW TABLE
+
+=============================================================================================================
+
 PROJECTION
-****************
-PROJECT {Name,ID}[Teacher]
-PROJECT {Name}[Teacher]
-****************
+============================================================================================================
+PROJECT name student
+PROJECT name age student
+==============================================================================================================
 
 UNION
-****************
-UNION [Teacher,Staff]
-****************
+===========================================================================================================
+UNION student teacher
+==============================================================================================================

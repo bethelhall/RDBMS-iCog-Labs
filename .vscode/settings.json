@@ -70,6 +70,7 @@
         "scoped_allocator": "cpp",
         "shared_mutex": "cpp",
         "thread": "cpp",
-        "valarray": "cpp"
+        "valarray": "cpp",
+        "strstream": "cpp"
     }
 }
