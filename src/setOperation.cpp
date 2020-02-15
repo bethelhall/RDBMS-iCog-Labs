@@ -7,6 +7,9 @@
 
 using std::vector;
 using std::set;
+using std::cout;
+using std::endl;
+using std::string;
 
 
 // UNION
@@ -40,19 +43,21 @@ Table ProjectTable(Table table, vector<string> attributes)
 		throw error;
 	}
 	Table output;
-	output.setTableName(table.getTableName());											
+	output.setTableName(table.getTableName());										
 	output.dataInTable.clear();
 	for(int i=0;i<attributes.size();i++)
 	{
 		output.addAttributeToSchema(table.getAttributeByName(attributes[i]));			
 	}
-	std::set<std::vector<Tuple> >::iterator it;
+	set<vector<Tuple>>::iterator it;
 	for (it=table.dataInTable.begin(); it!=table.dataInTable.end(); it++)
-	{
+	{	
 		vector<Tuple> cell = *it;
-		vector<Tuple> v(output.getNoOfAttributes());
+		std::vector<Tuple> v;
+		cout << "hello"<<endl;
 		for(int j=0;j<attributes.size();j++)
 		{
+			
 			int index = table.getAttributeIndexByName(attributes[j]);					
 			v[j]=cell[index];
 

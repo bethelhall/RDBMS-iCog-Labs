@@ -107,10 +107,6 @@ void Table::showSchema()
 
         schema[i].printAttribute();
     }
-    for(int i = 0; i < NoOfAttributes; i++)
-    {
-        schema[i].printDatatype();
-    }
     cout <<endl;
 }
 

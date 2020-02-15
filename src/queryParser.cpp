@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 
+
 using std::vector;
 using std::string;
 using std::cout;
@@ -17,11 +18,10 @@ vector<string> parseQuery(string str)
    {
        if (x == ' ') 
        { 
-           cout << word << endl; 
            parsed.push_back(word);
            word = ""; 
        } 
-       else if(x == '('  || x == ')' || x == ','){
+       else if(x == '('  || x == ')' || x == ',' || x == '{' || x == '}' || x == '[' || x == ']'){
            continue;
        }
        else

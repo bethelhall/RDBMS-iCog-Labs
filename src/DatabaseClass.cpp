@@ -19,14 +19,8 @@ Database::Database()
 // create Database
 void Database::CreateDatabase(string name)
 {
-    std::ofstream dbFile;
-    dbFile.open("../" + name + ".csv");
-    this->DatabaseName = name;
+    this->DatabaseName.push_back(name);
 
-}
-string Database::getDatabaseName()
-{
-    return DatabaseName;
 }
 
 void Database::NameTable(string name){
@@ -67,6 +61,7 @@ bool Database::tableExists(string name)
         return true;
     return false;
 }
+
 //returns the index of string name in the database
 int Database::getTableIndexByName(string name)
 {

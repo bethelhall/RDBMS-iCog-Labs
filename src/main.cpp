@@ -11,47 +11,47 @@ using std::vector;
 using std::endl;
 using std::cin;
 
-static inline std::string ltrim(std::string s)
+void display_query_syntax()
 {
-    s.erase(s.begin(), std::find_if(s.begin(), s.end(), std::not1(std::ptr_fun<int, int>(std::isspace))));
-    return s;
-}
-static inline std::string rtrim(std::string s) 
-{
-    s.erase(std::find_if(s.rbegin(), s.rend(), std::not1(std::ptr_fun<int, int>(std::isspace))).base(), s.end());
-    return s;
+  cout << "=====================================================================================================\n";
+  cout << "\t\t sample query syntax example\n";
+  cout << "\t1) CREATE TABLE student id INT name STRING age INT gender STRING \n";
+  cout << "\t2) INSERT INTO student 1 danny 21 male\n";
+  cout << "\t4) update student values=1,danny,25,male where name=danny\n";
+  cout << "\t5) delete from student where id=1\n";
+  cout << "\t6) select * from student inner_join teacher where name=danny\n";
+  cout << "\t7) show table student\n";
+  cout << "\t8) drop table student\n";
+  cout << "\t\t Enter exit.\n";
+  cout << "=====================================================================================================\n\n";
 }
 
-static inline std::string trim(std::string s) 
-{
-    return ltrim(rtrim(s));
-}
 
 int main ()
 {
     Database db;
     Attribute atr;
-    Table table;
+    display_query_syntax();
     try
     {
-        loadData();
-        cout << "Data loaded.." <<endl;
-        //string keyboard;
         while(1)
         {
             try
             {
                 Type v;
                 string a;
+                vector<string> values;
                 vector<string> attr_type;
                 vector<string>parseData;
+                vector <string> projectedData;
                 cout <<">>";
                 string query;
                 getline(cin, query);
-                vector<string>parsedQuery = parseQuery(query);
-                string queryCheck = trim(query);
+                string queryCheck = query;
                 transform(queryCheck.begin(), queryCheck.end(), queryCheck.begin(), ::toupper);
-                string mainQuery = parsedQuery[0];  
+                vector<string>parsedQuery = parseQuery(query);
+                string mainQuery = parsedQuery[0];
+                // creating vector of datatype from parsing  
                 for (int i = 0; i < parsedQuery.size(); i++)
                 {
                     if(parsedQuery[i] == "INT" || parsedQuery[i] == "STRING")
@@ -69,52 +69,74 @@ int main ()
 
                     }
                 }
-    
+                // getting vector of values from parssing
+                for(int i = 3; i < parsedQuery.size(); i++)
+                {
+                    values.push_back(parsedQuery[i]);
+                }
+                // getting values for projecting function
+                for(int i= 1; i < (parsedQuery.size() -1); i++)
+                {
+                     projectedData.push_back(parsedQuery[i]);
+                }
+
                 if(queryCheck == "EXIT")
                 {
                     cout << "Bye Exiting...."<<endl;
                     return 0;
                 }
 
-                else if(queryCheck == "SHOW TABLE")
+                else if(mainQuery == "SHOW")
                 {
-                    db.showTables();
+                    cout << "\t\t ==========created" + parsedQuery[1] + "=========" <<endl;
+                    if(parsedQuery[1] == "TABLE")
+                    {
+                        db.showTables();
+                    }
+                    else if(parsedQuery[1] == "DATA")
+                    {
+                        cout <<"\t\t ==========inserted element into " + parsedQuery[2] + "=========" <<endl;
+                        db.getTableByName(parsedQuery[2]).showData();
+                    }
                 }
+
                 else if(mainQuery == "CREATE")
                 {
                     if(parsedQuery[1] == "DATABASE")
                     {
                         db.CreateDatabase(parsedQuery[2]);
-                        cout << parsedQuery[2] + "Database Has Created" ;
+                        cout << parsedQuery[2] + " " << "database has created" << endl;
                     }
                     else if(parsedQuery[1] == "TABLE")
                     {
                         db.CreateTable(parsedQuery[2], parseData, attr_type);
-                        db.NameTable(parsedQuery[2]);
                         cout <<parsedQuery[2] + " " << "table has created"<<endl;
                     }
-                }               
+                }
+                else if(mainQuery == "INSERT")
+                {
+                    for (int i = 0; i < values.size(); i++)
+                    {
+                        db.getTableByName(parsedQuery[2]).InsertIntoTable(values);
+                    }
+                }
+
                 else if(mainQuery == "PROJECT")
                 {
-                    if(db.tableExists(parsedQuery[parsedQuery.size() - 1]))
-                    {
-                        
-                        table = db.getTableByName(parsedQuery[parsedQuery.size() - 1]);
-                    }
+                    Table table = db.getTableByName(parsedQuery[parsedQuery.size() - 1]);
+                    ProjectTable(table, projectedData);
+                }
+                else if(mainQuery == "UNION")
+                {
+                    Table A = db.getTableByName(parsedQuery[parsedQuery.size() - 1]);
+                    Table B = db.getTableByName(parsedQuery[parsedQuery.size() - 2]);
+                    Table C = UnionTables(A, B);
+                    C.showData();
 
-                    vector<string>attr_projects;
-                    string tablename = parsedQuery[parsedQuery.size() - 1];
-                    for(int i = 2; i < parsedQuery.size(); i++)
-                    {
-                        attr_projects.push_back(parsedQuery[i - 1]);
-                    }
-
-                    ProjectTable(table,  attr_projects);
                 }
                 else
                 {
                     throwError("Invalid Query");
-
                 }
                 
 
