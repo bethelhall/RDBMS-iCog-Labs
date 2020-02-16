@@ -144,4 +144,7 @@ class Database
 // set operations functions
 Table UnionTables(Table A, Table B);
 Table ProjectTable(Table table, vector<string> attributes);
+
 Table SetDifferenceTable(Table A, Table B);
+Table IntersectionOfTables(Table A,Table B);
+

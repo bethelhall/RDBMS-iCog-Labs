@@ -34,6 +34,28 @@ Table UnionTables(Table A, Table B)
 
 	return output;
 }
+Table IntersectionOfTables(Table A,Table B ){
+	if(!A.isSchemaSame(B))													
+	{
+		string error="Intersection  Table Error: Table \""+A.getTableName()+"\" and Table \""+B.getTableName()+"\" do not have same schemas";
+		throw error;
+	}
+	Table output;
+	output.setTableName("|"+A.getTableName()+" Intersection "+B.getTableName()+"|");	
+	std::set<std::vector<Tuple> >::iterator  ite;
+	 
+ 
+		for(ite = B.dataInTable.begin(); ite != B.dataInTable.end(); ite++){
+
+		if(A.dataTupleExists(*ite))
+		{
+			output.addDataTuple(*ite);											
+		}
+		 
+		
+	}
+return output;
+}
 // Projection
 Table ProjectTable(Table table, vector<string> attributes)
 {
@@ -49,23 +71,30 @@ Table ProjectTable(Table table, vector<string> attributes)
 	{
 		output.addAttributeToSchema(table.getAttributeByName(attributes[i]));			
 	}
+ 
 	set<vector<Tuple>>::iterator it;
 	for (it=table.dataInTable.begin(); it!=table.dataInTable.end(); it++)
 	{	
+		
 		vector<Tuple> cell = *it;
-		std::vector<Tuple> v;
+		cout << "hello"<<endl;
+		std::vector<Tuple> v( attributes.size());
 		cout << "hello"<<endl;
 		for(int j=0;j<attributes.size();j++)
 		{
-			
-			int index = table.getAttributeIndexByName(attributes[j]);					
+			 
+			int index = table.getAttributeIndexByName(attributes[j]);	
+			 	
+			cout<<index<<endl;
 			v[j]=cell[index];
-
+			
+			
 		}
-		if(!output.dataTupleExists(v))													
+		if(!output.dataTupleExists(v))	
+			cout << "hello"<<endl;												
 			output.addDataTuple(v);														
 	}
-
+cout << "hello"<<endl;
 	return output;
 }
 
