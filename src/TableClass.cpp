@@ -38,7 +38,6 @@ Table::Table(string tableName, int NoOfAttributes, vector<string> attributeNames
         throw error;
     }
     this->tableName = tableName;
-    cout <<tableName<<endl;
     setSchema(NoOfAttributes, attributeNames, attributeTypes);
 }
 // return table name
