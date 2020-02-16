@@ -135,6 +135,13 @@ int main ()
                     C.showData();
 
                 }
+                else if(mainQuery == "DIFF")
+                {
+                    Table A = db.getTableByName(parsedQuery[parsedQuery.size() - 1]);
+                    Table B = db.getTableByName(parsedQuery[parsedQuery.size() - 2]);
+                    Table C = SetDifferenceTable(A, B);
+                    C.showData();
+                }
                 else
                 {
                     throwError("Invalid Query");

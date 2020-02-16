@@ -146,7 +146,6 @@ public:
         TS_ASSERT("SUCCESS");
 
     }
-
+    
 };
-
 
