@@ -71,27 +71,29 @@ Table ProjectTable(Table table, vector<string> attributes)
 	{
 		output.addAttributeToSchema(table.getAttributeByName(attributes[i]));			
 	}
+ 
 	set<vector<Tuple>>::iterator it;
 	for (it=table.dataInTable.begin(); it!=table.dataInTable.end(); it++)
 	{	
 		
 		vector<Tuple> cell = *it;
 		cout << "hello"<<endl;
-		std::vector<Tuple> v(output.getNoOfAttributes());
+		std::vector<Tuple> v( attributes.size());
 		cout << "hello"<<endl;
 		for(int j=0;j<attributes.size();j++)
 		{
 			 
 			int index = table.getAttributeIndexByName(attributes[j]);	
 			 	
-			cout<<index;
+			cout<<index<<endl;
 			v[j]=cell[index];
 			
-			cout << "hello"<<endl;
+			
 		}
-		if(!output.dataTupleExists(v))													
+		if(!output.dataTupleExists(v))	
+			cout << "hello"<<endl;												
 			output.addDataTuple(v);														
 	}
-
+cout << "hello"<<endl;
 	return output;
 }

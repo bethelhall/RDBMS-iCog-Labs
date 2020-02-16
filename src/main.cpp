@@ -127,7 +127,9 @@ int main ()
                 {
                     Table table = db.getTableByName(parsedQuery[parsedQuery.size() - 1]);
                      
-                    ProjectTable(table, projectedData);
+                    Table C = ProjectTable(table, projectedData);
+                    cout<<"hey"<<endl;
+                    C.showData();
                 }
                 else if(mainQuery == "UNION")
                 {
