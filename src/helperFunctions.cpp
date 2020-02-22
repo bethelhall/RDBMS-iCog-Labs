@@ -1,7 +1,6 @@
 #include "helper.hpp"
 #include "database.hpp"
 #include <iostream>
-#include <fstream>
 #include <sstream>
 #include <climits>
 #include <cctype>
@@ -11,8 +10,7 @@
 #include <algorithm>
 
 
-using std::fstream;
-using std::ios;
+
 using std::cout;
 using std::endl;
 using std::vector;
@@ -30,25 +28,6 @@ string numberToString ( T Number )
 	return ss.str();
 }
 
-// definition of left trim functions to erase spaces 
-static inline std::string ltrim(std::string s)
-{
-    s.erase(s.begin(), std::find_if(s.begin(), s.end(), std::not1(std::ptr_fun<int, int>(std::isspace))));
-    return s;
-}
-
-// definition of right trim function to erase space
-static inline std::string rtrim(std::string s) 
-{
-    s.erase(std::find_if(s.rbegin(), s.rend(), std::not1(std::ptr_fun<int, int>(std::isspace))).base(), s.end());
-    return s;
-}
-
-// definition of trim function to erase space
-static inline std::string trim(std::string s) 
-{
-    return ltrim(rtrim(s));
-}
 // check for alphabetic and numeric values
 bool isAlpha(string name)
 {
@@ -76,19 +55,6 @@ void printElement(T t, const int& width,int flag)
 	    std::cout << std::setw(width) << std::setfill(separator) << t;
 }
 
-// definition for commaseparatedstring 
-vector<string> commaSeparatedStrings(string list ,char delimiter)
-{
-    std::stringstream ss(list);
-    vector<string> result;
-    while(ss.good())
-    {
-        string substr;
-        getline(ss,substr,delimiter);
-        result.push_back(substr);
-    }
-    return result;
-}
 // generic function to throw error
 void throwError(string error)
 {

@@ -12,7 +12,7 @@ using std::endl;
 using std::string;
 
 
-// UNION
+// UNION function
 Table UnionTables(Table A, Table B)
 {
 	if(!A.isSchemaSame(B))													
@@ -34,7 +34,10 @@ Table UnionTables(Table A, Table B)
 
 	return output;
 }
-Table IntersectionOfTables(Table A,Table B ){
+
+// Intersection Function 
+Table IntersectionOfTables(Table A,Table B )
+{
 	if(!A.isSchemaSame(B))													
 	{
 		string error="Intersection  Table Error: Table \""+A.getTableName()+"\" and Table \""+B.getTableName()+"\" do not have same schemas";
@@ -44,7 +47,6 @@ Table IntersectionOfTables(Table A,Table B ){
 	output.setTableName("|"+A.getTableName()+" Intersection "+B.getTableName()+"|");	
 	std::set<std::vector<Tuple> >::iterator  ite;
 	 
- 
 		for(ite = B.dataInTable.begin(); ite != B.dataInTable.end(); ite++){
 
 		if(A.dataTupleExists(*ite))
@@ -54,14 +56,17 @@ Table IntersectionOfTables(Table A,Table B ){
 		 
 		
 	}
+
 return output;
+
 }
-// Projection
+
+// Projection function
 Table ProjectTable(Table table, vector<string> attributes)
 {
 	if(attributes.size()==0)															
 	{
-		string error="Attribute Match Error: No attributes are provided for Project Function";
+		string error="No attributes are provided for Project Function";
 		throw error;
 	}
 	Table output;
@@ -77,37 +82,32 @@ Table ProjectTable(Table table, vector<string> attributes)
 	{	
 		
 		vector<Tuple> cell = *it;
-		cout << "hello"<<endl;
 		std::vector<Tuple> v( attributes.size());
-		cout << "hello"<<endl;
 		for(int j=0;j<attributes.size();j++)
 		{
 			 
 			int index = table.getAttributeIndexByName(attributes[j]);	
-			 	
-			cout<<index<<endl;
 			v[j]=cell[index];
-			
-			
+				
 		}
-		if(!output.dataTupleExists(v))	
-			cout << "hello"<<endl;												
+		if(!output.dataTupleExists(v))													
 			output.addDataTuple(v);														
 	}
-cout << "hello"<<endl;
+
 	return output;
 }
 
+// set difference function
 Table SetDifferenceTable(Table A, Table B)
 {
-	if(!A.isSchemaSame(B))													//Schema should be same for both of them
+	if(!A.isSchemaSame(B))											
 	{
 		string error="SetDifference Table Error: Table \""+A.getTableName()+"\" and Table \""+B.getTableName()+"\" do not have same schemas";
 		throw error;
 	}
 
 	Table output = A;
-	output.setTableName("|"+A.getTableName()+" - "+B.getTableName()+"|");				//New Table Name Set as  | A - B |
+	output.setTableName("|"+A.getTableName()+" - "+B.getTableName()+"|");
 	output.dataInTable.clear();
 	std::set<std::vector<Tuple> >::iterator it;
 	for(it=A.dataInTable.begin(); it!=A.dataInTable.end(); it++)

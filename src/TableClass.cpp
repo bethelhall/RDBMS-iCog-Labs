@@ -10,7 +10,7 @@
 #include <vector>
 
 
-using std::left;
+
 using std::cout;
 using std::endl;
 using std::vector;
@@ -167,7 +167,7 @@ Attribute Table::getAttributeByName(string name)
 {
     if(!attributeExitsinTable(name))
     {
-        string error="Attribute Match Error: No attribute \""+name+"\" found in Table "+getTableName();
+        string error="No attribute \""+name+"\" found in Table "+getTableName();
         throw error;
     }
 
@@ -179,7 +179,7 @@ int Table::getAttributeIndexByName(string name)
 {
     if(!attributeExitsinTable(name))
     {
-        string error="Attribute Match Error: No attribute \""+name+"\" found in Table "+getTableName();
+        string error="No attribute \""+name+"\" found in Table "+getTableName();
         throw error;
     }
 
@@ -190,7 +190,7 @@ void Table::addAttributeToSchema(Attribute newAttribute)
 {
     if(attributeExitsinTable(newAttribute.getName()))
     {
-        string error= "Corrupt Data Exception: Duplicate Attributes Are Not Allowed In "+getTableName();
+        string error= "Duplicate Attributes Are Not Allowed In "+getTableName();
         throw error;
     }
     schema.push_back(newAttribute);

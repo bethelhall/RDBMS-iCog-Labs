@@ -19,11 +19,11 @@ void display_query_syntax()
   cout << "\t0) CREATE DATABASE \n";
   cout << "\t1) CREATE TABLE student id INT name STRING age INT gender STRING \n";
   cout << "\t2) INSERT INTO student 1 danny 21 male\n";
-  cout << "\t4) update student values=1,danny,25,male where name=danny\n";
-  cout << "\t5) delete from student where id=1\n";
-  cout << "\t6) select * from student inner_join teacher where name=danny\n";
-  cout << "\t7) show table student\n";
-  cout << "\t8) drop table student\n";
+  cout << "\t4) UNIOTN TableA TableB\n";
+  cout << "\t5) DIFF TableA TableB\n";
+  cout << "\t6) PROJECT attributeA TableA\n";
+  cout << "\t7) SHOW TABLE \n";
+  cout << "\t8) SHOW DATA TableA\n";
   cout << "\t\t Enter exit.\n";
   cout << "=====================================================================================================\n\n";
 }
@@ -56,7 +56,7 @@ int main ()
                 // creating vector of datatype from parsing  
                 for (int i = 0; i < parsedQuery.size(); i++)
                 {
-                    if(parsedQuery[i] == "INT" || parsedQuery[i] == "STRING")
+                    if(parsedQuery[i] == "INT" || parsedQuery[i] == "STRING" || parsedQuery[i] == "DOUBLE" || parsedQuery[i] == "CHAR" || parsedQuery[i] == "BOOL")
                     {
                         
                         v = atr.stringToEnum(parsedQuery[i]);
@@ -64,7 +64,7 @@ int main ()
                         attr_type.push_back(a); 
                     }
 
-                    if((parsedQuery[i] != "INT" && parsedQuery[i] != "STRING") && (parsedQuery[i] != "CREATE" && parsedQuery[i] != "TABLE" && parsedQuery[i] != parsedQuery[2]))
+                    if((parsedQuery[i] != "INT" && parsedQuery[i] != "STRING" && parsedQuery[i] != "DOUBLE" && parsedQuery[i] != "CHAR" && parsedQuery[i] != "BOOL") && (parsedQuery[i] != "CREATE" && parsedQuery[i] != "TABLE" && parsedQuery[i] != parsedQuery[2]))
 
                     {
                         parseData.push_back(parsedQuery[i]);
@@ -81,13 +81,11 @@ int main ()
                 {
                      projectedData.push_back(parsedQuery[i]);
                 }
-
                 if(queryCheck == "EXIT")
                 {
                     cout << "Bye Exiting...."<<endl;
                     return 0;
                 }
-
                 else if(mainQuery == "SHOW")
                 {
                     cout << "\t\t ==========created" + parsedQuery[1] + "=========" <<endl;
@@ -101,7 +99,6 @@ int main ()
                         db.getTableByName(parsedQuery[2]).showData();
                     }
                 }
-
                 else if(mainQuery == "CREATE")
                 {
                     if(parsedQuery[1] == "DATABASE")
@@ -122,13 +119,11 @@ int main ()
                         db.getTableByName(parsedQuery[2]).InsertIntoTable(values);
                     }
                 }
-
                 else if(mainQuery == "PROJECT")
                 {
                     Table table = db.getTableByName(parsedQuery[parsedQuery.size() - 1]);
                      
                     Table C = ProjectTable(table, projectedData);
-                    cout<<"hey"<<endl;
                     C.showData();
                 }
                 else if(mainQuery == "UNION")
@@ -138,7 +133,8 @@ int main ()
                     Table C = UnionTables(A, B);
                     C.showData();
 
-                }else if(mainQuery == "INTERSECTION"){
+                }
+                else if(mainQuery == "INTERSECTION"){
                     Table A = db.getTableByName(parsedQuery[parsedQuery.size()-1]);
                     Table B = db.getTableByName(parsedQuery[parsedQuery.size()-2]);
                     Table C = IntersectionOfTables(A,B);
@@ -147,8 +143,8 @@ int main ()
                 }
                 else if(mainQuery == "DIFF")
                 {
-                    Table A = db.getTableByName(parsedQuery[parsedQuery.size() - 1]);
-                    Table B = db.getTableByName(parsedQuery[parsedQuery.size() - 2]);
+                    Table A = db.getTableByName(parsedQuery[parsedQuery.size() - 2]);
+                    Table B = db.getTableByName(parsedQuery[parsedQuery.size() - 1]);
                     Table C = SetDifferenceTable(A, B);
                     C.showData();
                 }
@@ -171,4 +167,5 @@ int main ()
 
     }
     return 0;
+    
 };

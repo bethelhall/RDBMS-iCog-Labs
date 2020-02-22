@@ -6,11 +6,9 @@ The program implements the following Relational Algebra functions:
 
 1. PROJECT
 
-2. RENAME
+2. UNION
 
-3. UNION
-
-4. SET DIFFERENCE
+3. SET DIFFERENCE
 
 
 #### Details of Operations
@@ -47,8 +45,8 @@ cmake ../
 cmake --build .
 ```
 
-#### how to run file
-in the build directory run<br>
+#### how to run the file
+go into build directory<br>
 to run src file<br>
 ``` 
 cd src 

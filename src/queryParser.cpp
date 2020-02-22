@@ -29,6 +29,7 @@ vector<string> parseQuery(string str)
            word = word + x; 
        } 
    }  
-//    cout << word << endl; 
+
     return parsed;
+    
 } 
